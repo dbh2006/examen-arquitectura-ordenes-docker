@@ -86,8 +86,6 @@ BEGIN
 
     (@id5, 'Camara web Full HD', 1, 1650.00),
     (@id5, 'Microfono', 1, 1350.00);
-END;
-
 
     -- Calcular totales de las órdenes
     UPDATE o
@@ -104,3 +102,4 @@ GO
 SELECT * FROM dbo.ordenes;
 SELECT * FROM dbo.orden_detalle;
 GO
+
