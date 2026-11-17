@@ -217,8 +217,14 @@ Las imágenes de los servicios fueron publicadas en Docker Hub:
 
 **Versión:** `v1.0`
 
+## 13. Integrantes
 
-## 13. Conclusión
+Este proyecto fue desarrollado de manera individual,
+con autorización del docente.
+
+Dimas Belsasar Hernandez Herrera - 202410110004
+
+## 14. Conclusión
 
 Con este proyecto pude aplicar lo aprendido sobre Docker Compose, integrando Django, Flask y SQL Server en un mismo sistema.
 
