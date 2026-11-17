@@ -49,42 +49,45 @@ BEGIN
 END
 GO
 
+
 -- Insertar datos iniciales una sola vez
 IF NOT EXISTS (SELECT 1 FROM dbo.ordenes)
 BEGIN
     INSERT INTO dbo.ordenes (cliente, fecha, estado)
     VALUES
-    ('Carlos Martinez', '2026-11-10', 'Pendiente'),
-    ('Maria Lopez', '2026-11-11', 'Pagada'),
-    ('Jose Hernandez', '2026-11-12', 'Pendiente'),
-    ('Ana Rodriguez', '2026-11-13', 'Pagada'),
-    ('Pedro Gomez', '2026-11-14', 'Anulada');
+    ('Fernanda Ferrari', '2026-11-10', 'Pendiente'),
+    ('Martin Cruz', '2026-11-11', 'Pagada'),
+    ('Daniela Hernandez', '2026-11-12', 'Pendiente'),
+    ('David Moncada', '2026-11-13', 'Pagada'),
+    ('Cecilia Nuñez', '2026-11-14', 'Anulada');
 
     DECLARE @id1 INT, @id2 INT, @id3 INT, @id4 INT, @id5 INT;
 
-    SELECT @id1 = id FROM dbo.ordenes WHERE cliente = 'Carlos Martinez';
-    SELECT @id2 = id FROM dbo.ordenes WHERE cliente = 'Maria Lopez';
-    SELECT @id3 = id FROM dbo.ordenes WHERE cliente = 'Jose Hernandez';
-    SELECT @id4 = id FROM dbo.ordenes WHERE cliente = 'Ana Rodriguez';
-    SELECT @id5 = id FROM dbo.ordenes WHERE cliente = 'Pedro Gomez';
+    SELECT @id1 = id FROM dbo.ordenes WHERE cliente = 'Fernanda Ferrari';
+    SELECT @id2 = id FROM dbo.ordenes WHERE cliente = 'Martin Cruz';
+    SELECT @id3 = id FROM dbo.ordenes WHERE cliente = 'Daniela Hernandez';
+    SELECT @id4 = id FROM dbo.ordenes WHERE cliente = 'David Moncada';
+    SELECT @id5 = id FROM dbo.ordenes WHERE cliente = 'Cecilia Nuñez';
 
     INSERT INTO dbo.orden_detalle
         (orden_id, producto, cantidad, precio_unitario)
     VALUES
-    (@id1, 'Teclado', 2, 450.00),
-    (@id1, 'Mouse', 1, 250.00),
+    (@id1, 'Teclado Gamer', 2, 1250.00),
+    (@id1, 'Mouse inalambrico', 1, 650.00),
 
-    (@id2, 'Monitor', 1, 3500.00),
-    (@id2, 'Cable HDMI', 2, 180.00),
+    (@id2, 'Monitor LED 24 pulgadas', 1, 4200.00),
+    (@id2, 'Soporte para monitor', 1, 850.00),
 
-    (@id3, 'Memoria USB', 3, 200.00),
-    (@id3, 'Audifonos', 1, 650.00),
+    (@id3, 'Memoria USB 32GB', 3, 320.00),
+    (@id3, 'Hub USB tipo C', 1, 780.00),
 
-    (@id4, 'Disco SSD', 1, 1800.00),
-    (@id4, 'Memoria RAM', 2, 950.00),
+    (@id4, 'Disco SSD NVMe 1TB', 1, 2450.00),
+    (@id4, 'Memoria RAM DDR4 16GB', 2, 1150.00),
 
-    (@id5, 'Webcam', 1, 1200.00),
-    (@id5, 'Microfono', 1, 800.00);
+    (@id5, 'Camara web Full HD', 1, 1650.00),
+    (@id5, 'Microfono', 1, 1350.00);
+END;
+
 
     -- Calcular totales de las órdenes
     UPDATE o
