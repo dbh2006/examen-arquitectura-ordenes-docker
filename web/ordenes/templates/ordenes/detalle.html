@@ -1,0 +1,174 @@
+
+{% extends "ordenes/base.html" %}
+
+{% block contenido %}
+
+<div class="card">
+    <h2>Orden #{{ orden.id }}</h2>
+
+    <p><strong>Cliente:</strong> {{ orden.cliente }}</p>
+    <p><strong>Fecha:</strong> {{ orden.fecha }}</p>
+    <p><strong>Estado:</strong> {{ orden.estado }}</p>
+
+    <h2>Total: L {{ orden.total|floatformat:2 }}</h2>
+
+    <div class="acciones">
+        <a href="{% url 'lista_ordenes' %}" class="btn">
+            Volver
+        </a>
+
+        <a href="{% url 'editar_orden' orden.id %}"
+           class="btn btn-warning">
+            Editar orden
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Agregar producto</h2>
+
+    <form method="post"
+          action="{% url 'agregar_detalle' orden.id %}">
+        {% csrf_token %}
+
+        <label for="producto">Producto</label>
+        <input
+            type="text"
+            id="producto"
+            name="producto"
+            maxlength="150"
+            placeholder="Nombre del producto"
+            required
+        >
+
+        <label for="cantidad">Cantidad</label>
+        <input
+            type="number"
+            id="cantidad"
+            name="cantidad"
+            min="1"
+            value="1"
+            required
+        >
+
+        <label for="precio_unitario">Precio unitario (L)</label>
+        <input
+            type="number"
+            id="precio_unitario"
+            name="precio_unitario"
+            min="0"
+            step="0.01"
+            placeholder="0.00"
+            required
+        >
+
+        <button type="submit" class="btn btn-success">
+            + Agregar producto
+        </button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Productos de la orden</h2>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio unitario</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for detalle in orden.detalles %}
+                <tr>
+                    <td>{{ detalle.id }}</td>
+                    <td>{{ detalle.producto }}</td>
+                    <td>{{ detalle.cantidad }}</td>
+                    <td>L {{ detalle.precio_unitario|floatformat:2 }}</td>
+                    <td>L {{ detalle.subtotal|floatformat:2 }}</td>
+
+                    <td>
+                        <button
+                            type="button"
+                            class="btn btn-warning"
+                            onclick="document.getElementById('editar-{{ detalle.id }}').hidden = !document.getElementById('editar-{{ detalle.id }}').hidden">
+                            Editar
+                        </button>
+
+
+                        <form method="post"
+                            action="{% url 'eliminar_detalle' detalle.id %}"
+                            style="display:inline"
+                            onsubmit="abrirModal(this, 'producto'); return false;">
+
+                            {% csrf_token %}
+
+                            <input type="hidden"
+                                name="orden_id"
+                                value="{{ orden.id }}">
+
+                            <button type="submit" class="btn btn-danger">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                <tr id="editar-{{ detalle.id }}" hidden>
+                    <td colspan="6">
+                        <form method="post"
+                              action="{% url 'editar_detalle' detalle.id %}">
+                            {% csrf_token %}
+
+                            <input type="hidden"
+                                   name="orden_id"
+                                   value="{{ orden.id }}">
+
+                            <label>Producto</label>
+                            <input type="text"
+                                   name="producto"
+                                   maxlength="150"
+                                   value="{{ detalle.producto }}"
+                                   required>
+
+                            <label>Cantidad</label>
+                            <input type="number"
+                                   name="cantidad"
+                                   min="1"
+                                   value="{{ detalle.cantidad }}"
+                                   required>
+
+                            <label>Precio unitario</label>
+                            <input type="number"
+                                   name="precio_unitario"
+                                   min="0"
+                                   step="0.01"
+                                   value="{{ detalle.precio_unitario }}"
+                                   required>
+
+                            <button type="submit" class="btn btn-success">
+                                Guardar cambios
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="6">
+                        Esta orden todavia no tiene productos.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+
+{% extends "ordenes/base.html" %}
+
+{% block contenido %}
+
+<div class="card">
+    <h2>{{ titulo }}</h2>
+
+    <p>Completa la información de la orden de venta.</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="cliente">Nombre del cliente</label>
+        <input
+            type="text"
+            id="cliente"
+            name="cliente"
+            maxlength="150"
+            value="{{ orden.cliente|default:'' }}"
+            placeholder="Escribe el nombre del cliente"
+            required
+        >
+
+        <label for="estado">Estado de la orden</label>
+        <select id="estado" name="estado">
+            <option value="Pendiente"
+                {% if not orden or orden.estado == "Pendiente" %}selected{% endif %}>
+                Pendiente
+            </option>
+
+            <option value="Pagada"
+                {% if orden.estado == "Pagada" %}selected{% endif %}>
+                Pagada
+            </option>
+
+            <option value="Anulada"
+                {% if orden.estado == "Anulada" %}selected{% endif %}>
+                Anulada
+            </option>
+        </select>
+
+        <button type="submit" class="btn btn-success">
+            Guardar orden
+        </button>
+
+        <a href="{% url 'lista_ordenes' %}" class="btn">
+            Cancelar
+        </a>
+    </form>
+</div>
+
+{% endblock %}

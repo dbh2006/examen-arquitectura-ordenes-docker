@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistema de Ordenes de Venta</title>
+
+
+<style>
+    :root {
+        --verde1: #188082f8;
+        --negro: #000000;
+        --verde: #209f37;
+        --verde-hover: #215c46;
+        --fondo: #FFFFFF;
+        --borde: #D1DDD9;
+        --texto: #000000;
+        --secundario: #6C8178;
+        --rojo: #e21616;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: var(--fondo);
+        color: var(--texto);
+        line-height: 1.5;
+    }
+
+    header {
+        background: var(--verde1);
+        color: var(--negro);
+        padding: 25px 35px;
+        border-bottom: 1px solid var(--borde);
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--negro);
+    }
+
+    header p {
+        color: #eefff9;
+        margin-bottom: 0;
+    }
+
+    nav {
+        background: #F0F5F2;
+        padding: 15px 35px;
+        border-bottom: 1px solid var(--borde);
+    }
+
+    nav a {
+        color: var(--negro);
+        text-decoration: none;
+        margin-right: 25px;
+        font-weight: 600;
+    }
+
+    nav a:hover {
+        color: var(--verde);
+        text-decoration: underline;
+    }
+
+    main {
+        max-width: 1150px;
+        margin: 35px auto;
+        padding: 0 20px;
+    }
+
+
+    .card {
+        background: #F4F5F6;
+        padding: 30px;
+        border: 1px solid #E2E5E7;
+        border-radius: 14px;
+        margin-bottom: 20px;
+    }
+
+
+    h2 {
+        color: var(--negro);
+        margin-top: 0;
+    }
+
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: #FFFFFF;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 15px 13px;
+        text-align: left;
+        border-bottom: 1px solid #E7E9EC;
+    }
+
+    th {
+        background: #e1e1e1;
+        color: #005465;
+        font-weight: 700;
+    }
+
+    tbody tr:hover {
+        background: #F8F9FA;
+    }
+
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 16px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        color: white;
+        background: var(--verde);
+        transition: background 0.2s ease;
+    }
+
+    .btn:hover {
+        background: var(--verde-hover);
+    }
+
+    .btn-success {
+        background: #048a83;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #315447;
+    }
+
+    .btn-danger {
+        background: #d20c1d;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #98454D;
+    }
+
+    .btn-warning {
+        background: #fef13e;
+        color: #59451E;
+    }
+
+    .btn-warning:hover {
+        background: #DDB66F;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 12px 14px;
+        margin: 8px 0 18px;
+        border: 1px solid var(--borde);
+        border-radius: 8px;
+        font-size: 15px;
+        background: white;
+        color: var(--texto);
+        transition: border-color 0.2s ease;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        border-color: var(--verde);
+        box-shadow: 0 0 0 3px rgba(66, 107, 93, 0.12);
+    }
+
+    label {
+        font-weight: 600;
+        color: var(--negro);
+    }
+
+    .mensaje {
+        padding: 14px 16px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        background: #E0F3E8;
+        border-left: 4px solid #426B5D;
+        color: #24543E;
+    }
+
+    .error {
+        background: #F9E8E8;
+        border-left-color: #f03444;
+        color: #8A333C;
+    }
+
+    .acciones {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .acciones form {
+        display: inline;
+    }
+
+    .estado {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .estado-pagada {
+        background: #E0F3E8;
+        color: #27734E;
+    }
+
+    .estado-pendiente {
+        background: #FFF1D9;
+        color: #946316;
+    }
+
+    .estado-anulada {
+        background: #F4E7E8;
+        color: #985F67;
+    }
+
+    footer {
+        text-align: center;
+        padding: 25px;
+        color: var(--secundario);
+    }
+
+    .modal-fondo {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(30, 58, 52, 0.55);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-fondo.activo {
+        display: flex;
+    }
+
+    .modal-contenido {
+        background: white;
+        width: 100%;
+        max-width: 420px;
+        padding: 35px;
+        border: 1px solid var(--borde);
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .modal-icono {
+        width: 65px;
+        height: 65px;
+        margin: 0 auto 20px;
+        background: #F4E7E8;
+        color: #e73645;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+    }
+
+    .modal-contenido h2 {
+        margin-bottom: 12px;
+    }
+
+    .modal-contenido p {
+        color: var(--secundario);
+        line-height: 1.6;
+    }
+
+    .modal-botones {
+        display: flex;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    .modal-botones button {
+        flex: 1;
+        padding: 12px;
+    }
+
+    @media (max-width: 600px) {
+        header, nav {
+            padding: 18px 20px;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        main {
+            margin: 20px auto;
+            padding: 0 12px;
+        }
+
+        .card {
+            padding: 18px;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <h1>Sistema de Ordenes de Venta</h1>
+    <p>Examen Practico de Arquitectura de Computadoras</p>
+</header>
+
+<nav>
+    <a href="{% url 'lista_ordenes' %}">Inicio</a>
+    <a href="{% url 'crear_orden' %}">Nueva orden</a>
+</nav>
+
+<main>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="mensaje {% if message.tags == 'error' %}error{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block contenido %}
+    {% endblock %}
+</main>
+
+<footer>
+    Examen Practico | Arquitectura de Computadoras
+</footer>
+
+<div id="modalEliminar" class="modal-fondo"
+     role="dialog" aria-modal="true"
+     aria-labelledby="modalTitulo">
+    <div class="modal-contenido">
+        <div class="modal-icono">🗑</div>
+
+        <h2 id="modalTitulo">¿Estás seguro?</h2>
+
+        <p id="modalMensaje">
+            Esta acción no se puede deshacer.
+        </p>
+
+        <div class="modal-botones">
+            <button type="button" class="btn"
+                    onclick="cerrarModal()">
+                Cancelar
+            </button>
+
+            <button type="button" class="btn btn-danger"
+                    onclick="confirmarEliminacion()">
+                Si, eliminar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+let formularioEliminar = null;
+
+function abrirModal(formulario, tipo) {
+    formularioEliminar = formulario;
+
+    const mensaje = document.getElementById("modalMensaje");
+
+    if (tipo === "orden") {
+        mensaje.textContent =
+            "Se eliminara esta orden junto con todos sus productos.";
+    } else {
+        mensaje.textContent =
+            "Se eliminara este producto y se actualizara el total de la orden.";
+    }
+
+    document.getElementById("modalEliminar")
+        .classList.add("activo");
+}
+
+function cerrarModal() {
+    document.getElementById("modalEliminar")
+        .classList.remove("activo");
+
+    formularioEliminar = null;
+}
+
+
+function confirmarEliminacion() {
+    if (formularioEliminar) {
+        const formulario = formularioEliminar;
+        cerrarModal();
+        formulario.submit();
+    }
+}
+
+
+document.getElementById("modalEliminar")
+    .addEventListener("click", function(evento) {
+        if (evento.target === this) {
+            cerrarModal();
+        }
+    });
+
+document.addEventListener("keydown", function(evento) {
+    if (evento.key === "Escape") {
+        cerrarModal();
+    }
+});
+</script>
+
+</body>
+</html>
