@@ -203,16 +203,20 @@ docker stats
 
 En la carpeta `evidencias` se incluyen capturas del funcionamiento de los contenedores, la interfaz web, las operaciones CRUD, la persistencia de datos y el consumo de recursos.
 
+
 ## 12. Publicación
 
-**Repositorio GitHub:** Pendiente de agregar enlace.
+El código fuente del proyecto está disponible en GitHub:
 
-**Imágenes Docker Hub:**
+- [Repositorio GitHub](https://github.com/dbh2006/examen-arquitectura-ordenes-docker)
 
-- API Flask: pendiente de publicar.
-- Django Web: pendiente de publicar.
+Las imágenes de los servicios fueron publicadas en Docker Hub:
+
+- [API Flask](https://hub.docker.com/r/dbhernandez/ordenes-api) — `dbhernandez/ordenes-api:v1.0`
+- [Django Web](https://hub.docker.com/r/dbhernandez/ordenes-web) — `dbhernandez/ordenes-web:v1.0`
 
 **Versión:** `v1.0`
+
 
 ## 13. Conclusión
 
